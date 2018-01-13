@@ -20,12 +20,15 @@ class Individual:
         for i in range(len(self.chromosomes)):
             check = False
             for j in range(len(self.chromosomes)):
-                if (int(self.chromosomes[j]) != int(self.chromosomes[i])) and (int(self.chromosomes.index(self.chromosomes[i])) != j) and (self.chromosomes[j] != self.chromosomes[i]):
+                if self.chromosomes[j] != self.chromosomes[i] and i != j:
                     if round(fabs(int(self.chromosomes[j], 2) - int(self.chromosomes[i], 2))) != round(fabs(j - i)):
                         check = True
                     else:
                         check = False
                         break
+                elif i != j:
+                    check = False
+                    break
             if check:
                 count = count + 1
                 self.count_correct_chromosome = self.count_correct_chromosome + 1
