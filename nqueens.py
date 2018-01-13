@@ -20,8 +20,6 @@ class Solver_8_queens:
         epoch_num = None
         visualization = None
 
-        g = individ.Individual(['100', '111', '101', '101', '001', '100', '111', '111'])
-
         pop = self._create_pop()
         self._search_fit(pop)
 
