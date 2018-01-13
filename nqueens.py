@@ -46,14 +46,14 @@ class Solver_8_queens:
             self._search_fit(pop)
 
             i = i + 1
-            print(i)
+            #print(i)
             for j in range(len(pop)):
                 if pop[j].get_fit() >= min_fitness:
                     visualization = ""
                     ff = pop[j].get_list_chromosome()
-                    print(ff)
-                    print(pop[j].get_check_cromosome())
-                    print(pop[j].get_fit())
+                    print(ff, "Лсит ферзей")
+                    print(pop[j].get_check_cromosome(), "Ферьзи, которые не пересикаются")
+                    print(pop[j].get_fit(), "фитнес этого решения")
                     for row in range(8):
                         for b in range(len(ff)):
                             if b == int(ff[row], 2):
