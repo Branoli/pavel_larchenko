@@ -49,14 +49,11 @@ class Solver_8_queens:
                     min_fitness = pop[j].get_fit()
 
             i = i + 1
-            #print(i)
+
             for j in range(len(pop)):
                 if pop[j].get_fit() >= min_fitness:
                     visualization = ""
                     ff = pop[j].get_list_currect_cromosome()
-                    #print(ff, "Лсит ферзей")
-                    #print(pop[j].get_list_currect_cromosome(), "Ферьзи, которые не пересикаются")
-                    #print(pop[j].get_fit(), "фитнес этого решения")
                     for row in range(8):
                         for b in range(len(ff)):
                             if b == int(ff[row], 2):
@@ -98,15 +95,12 @@ class Solver_8_queens:
         temp_one = 0
         temp_two = 0
         for i in range(len(pop)):
-            #for j in range(pop[i].get_estim_number_chromosomes()):
-                #selected_pop.append(pop[i])
             temp_two = temp_one
             temp_one = temp_one + pop[i].get_fit()
             list_rulet.append((pop[i], (temp_two, temp_one)))
 
-        select = random.random()
-
         for k in range(self.pop_size):
+            select = random.random()
             for i in range(len(list_rulet)):
                 if select >= list_rulet[i][1][0]:
                     if select <= list_rulet[i][1][1]:
@@ -119,10 +113,8 @@ class Solver_8_queens:
 
         return selected_pop
 
-    '''    
-        ----------------
-        ТУТ ДЛЯ ГЕНОТИПА
-        ----------------    
+    '''
+        Геннетический алгоритм
     '''
     def to_crossing_over(self, selected_pop):
         childs = []
@@ -141,7 +133,6 @@ class Solver_8_queens:
 
             childs.append(individ.Individual(self.reform(self.to_mutate_(one_child))))
             childs.append(individ.Individual(self.reform(self.to_mutate_(two_child))))
-            #childs.append(individ.Individual(self.to_mutate_(two_child)))
 
         return childs
 
@@ -189,7 +180,7 @@ class Solver_8_queens:
         return list_chromosome
 
     '''
-        -------------
+        Батюшка-рандом
     '''
     def random_cross(self):
         prob = random.random()

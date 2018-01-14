@@ -6,15 +6,15 @@ class Individual:
     def __init__(self, list_chromosome):
 
         self.chromosomes = list_chromosome
-        self.correct_chromosome = []
+        self.correct_chromosomes = []
         self.genotype = ""
         self.fit = 0
         self.count_correct_chromosome = 0
 
-        self._search_chromosome()
+        self._search_currect_chromosome()
         self._create_genotype()
 
-    def _search_chromosome(self):
+    def _search_currect_chromosome(self):
         for i in range(len(self.chromosomes)):
             check = True
             for j in range(len(self.chromosomes)):
@@ -27,7 +27,7 @@ class Individual:
                     break
             if check:
                 self.count_correct_chromosome = self.count_correct_chromosome + 1
-                self.correct_chromosome.append(self.chromosomes[i])
+                self.correct_chromosomes.append(self.chromosomes[i])
 
     def _create_genotype(self):
         for i in range(len(self.chromosomes)):
@@ -37,7 +37,7 @@ class Individual:
         return self.count_correct_chromosome
 
     def get_list_currect_cromosome(self):
-        return self.correct_chromosome
+        return self.correct_chromosomes
 
     def get_list_chromosome(self):
         return self.chromosomes
