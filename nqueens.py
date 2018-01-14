@@ -45,7 +45,7 @@ class Solver_8_queens:
             self._search_fit(pop)
 
             for j in range(len(pop)):
-                if len(pop[j].get_check_cromosome()) == 8:
+                if len(pop[j].get_list_currect_cromosome()) == 8:
                     min_fitness = pop[j].get_fit()
 
             i = i + 1
@@ -53,9 +53,9 @@ class Solver_8_queens:
             for j in range(len(pop)):
                 if pop[j].get_fit() >= min_fitness:
                     visualization = ""
-                    ff = pop[j].get_list_chromosome()
+                    ff = pop[j].get_list_currect_cromosome()
                     #print(ff, "Лсит ферзей")
-                    #print(pop[j].get_check_cromosome(), "Ферьзи, которые не пересикаются")
+                    #print(pop[j].get_list_currect_cromosome(), "Ферьзи, которые не пересикаются")
                     #print(pop[j].get_fit(), "фитнес этого решения")
                     for row in range(8):
                         for b in range(len(ff)):
