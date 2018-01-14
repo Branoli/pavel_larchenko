@@ -7,7 +7,7 @@ class Solver_8_queens:
     '''
     Dummy constructor representing proper interface
     '''
-    def __init__(self, pop_size=50, cross_prob=1, mut_prob=1):
+    def __init__(self, pop_size=75, cross_prob=1, mut_prob=1):
         self.pop_size = pop_size
         self.cross_prob = cross_prob
         self.mut_prob = mut_prob
@@ -73,15 +73,15 @@ class Solver_8_queens:
     def _create_pop(self):
         pop = []
         for i in range(self.pop_size):
-            individerrrr = ["000", "001", "010", "011", "100", "101", "110", "111"]
+            individ_list = ["000", "001", "010", "011", "100", "101", "110", "111"]
             for j in range(10):
                 one_index = random.randint(0, 7)
                 two_index = random.randint(0, 7)
 
-                temp = individerrrr[one_index]
-                individerrrr[one_index] = individerrrr[two_index]
-                individerrrr[two_index] = temp
-            pop.append(individ.Individual(individerrrr))
+                temp = individ_list[one_index]
+                individ_list[one_index] = individ_list[two_index]
+                individ_list[two_index] = temp
+            pop.append(individ.Individual(individ_list))
 
         return pop
 
@@ -92,12 +92,11 @@ class Solver_8_queens:
     def selection_individuals(self, pop):
         selected_pop = []
         list_rulet = []
-        temp_one = 0
-        temp_two = 0
+        temp_fit_start = 0
         for i in range(len(pop)):
-            temp_two = temp_one
-            temp_one = temp_one + pop[i].get_fit()
-            list_rulet.append((pop[i], (temp_two, temp_one)))
+            temp_fit_end = temp_fit_start
+            temp_fit_start = temp_fit_start + pop[i].get_fit()
+            list_rulet.append((pop[i], (temp_fit_end, temp_fit_start)))
 
         for k in range(self.pop_size):
             select = random.random()
