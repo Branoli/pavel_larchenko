@@ -54,9 +54,9 @@ class Solver_8_queens:
                 if pop[j].get_fit() >= min_fitness:
                     visualization = ""
                     ff = pop[j].get_list_chromosome()
-                    print(ff, "Лсит ферзей")
-                    print(pop[j].get_check_cromosome(), "Ферьзи, которые не пересикаются")
-                    print(pop[j].get_fit(), "фитнес этого решения")
+                    #print(ff, "Лсит ферзей")
+                    #print(pop[j].get_check_cromosome(), "Ферьзи, которые не пересикаются")
+                    #print(pop[j].get_fit(), "фитнес этого решения")
                     for row in range(8):
                         for b in range(len(ff)):
                             if b == int(ff[row], 2):
