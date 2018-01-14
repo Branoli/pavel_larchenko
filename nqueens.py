@@ -15,12 +15,10 @@ class Solver_8_queens:
     Dummy method representing proper interface
     '''
 
-    def solve(self, min_fitness=0.027, max_epochs=10000):
+    def solve(self, min_fitness=0.9, max_epochs=10000):
         best_fit = None
         epoch_num = None
         visualization = None
-
-        g = individ.Individual(['100', '111', '101', '101', '001', '100', '111', '111'])
 
         pop = self._create_pop()
         self._search_fit(pop)
@@ -34,7 +32,6 @@ class Solver_8_queens:
             self._search_fit(new_pop)
 
             pop.clear()
-            dfdf = new_pop
             for j in range(self.pop_size):
                 max_ob = (new_pop[0], new_pop[0].get_fit())
                 index_max = 0
@@ -46,6 +43,10 @@ class Solver_8_queens:
                 del new_pop[index_max]
 
             self._search_fit(pop)
+
+            for j in range(len(pop)):
+                if len(pop[j].get_check_cromosome()) == 8:
+                    min_fitness = pop[j].get_fit()
 
             i = i + 1
             #print(i)
