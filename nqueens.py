@@ -26,12 +26,16 @@ class Solver_8_queens:
         i = 0
         check = False
         while i < max_epochs:
-            selected_pop = self.selection_individuals(pop)
-            new_pop = self.to_crossing_over(selected_pop)
+            new_pop = self.to_crossing_over(self.selection_individuals(pop))
 
             self._search_fit(new_pop)
 
             pop.clear()
+
+            '''
+                Создание новой популяции из особебй с 
+                максимальным значением fit
+            '''
             for j in range(self.pop_size):
                 max_ob = (new_pop[0], new_pop[0].get_fit())
                 index_max = 0
@@ -44,12 +48,18 @@ class Solver_8_queens:
 
             self._search_fit(pop)
 
+            '''
+                Переопределение fit дял новой популяции
+            '''
             for j in range(len(pop)):
                 if len(pop[j].get_list_currect_cromosome()) == 8:
                     min_fitness = pop[j].get_fit()
 
             i = i + 1
 
+            '''
+                Проверка и вывод
+            '''
             for j in range(len(pop)):
                 if pop[j].get_fit() >= min_fitness:
                     visualization = ""
