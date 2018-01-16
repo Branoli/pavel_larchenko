@@ -17,19 +17,20 @@ class Solver_8_queens:
 
     def solve(self, min_fitness=0.9, max_epochs=10000):
 
-        pop = self._create_pop()
-        self._search_fit(pop)
+        pop = self.create_pop()
+        self.search_fit(pop)
 
         count_epochs = 0
         index_correct_solution = None
         while count_epochs < max_epochs:
-            new_pop = self.to_crossing_over(self.selection_individuals(pop))
 
-            self._search_fit(new_pop)
+            new_pop = self.to_crossing_over(self.selection_individuals(pop))
+            self.search_fit(new_pop)
+
             pop.clear()
 
             pop = self.reduction_new_pop(new_pop)
-            self._search_fit(pop)
+            self.search_fit(pop)
 
             '''
                 Поиск правильного решения
@@ -54,7 +55,10 @@ class Solver_8_queens:
 
         return best_fit, epoch_num, visualization
 
-    def _create_pop(self):
+    '''
+        Геннетический алгоритм
+    '''
+    def create_pop(self):
         pop = []
         for i in range(self.pop_size):
             individ_list = ["000", "001", "010", "011", "100", "101", "110", "111"]
@@ -69,7 +73,7 @@ class Solver_8_queens:
 
         return pop
 
-    def _search_fit(self, pop):
+    def search_fit(self, pop):
         for i in range(len(pop)):
             summ_fit = 0
             for j in range(len(pop)):
@@ -99,9 +103,6 @@ class Solver_8_queens:
 
         return selected_pop
 
-    '''
-        Геннетический алгоритм
-    '''
     def to_crossing_over(self, selected_pop):
         childs = []
 
@@ -118,7 +119,7 @@ class Solver_8_queens:
                 one_child = selected_pop[index_one_parent].genotype[0: point_crossingover] + \
                             selected_pop[index_two_parent].genotype[point_crossingover: len(selected_pop[index_two_parent].genotype)]
 
-                two_child = selected_pop[index_two_parent].genotype[0: point_crossingover] +\
+                two_child = selected_pop[index_two_parent].genotype[0: point_crossingover] + \
                             selected_pop[index_one_parent].genotype[point_crossingover: len(selected_pop[index_one_parent].genotype)]
 
                 childs.append(individ.Individual(self.reform(self.to_mutate(one_child))))
@@ -161,6 +162,20 @@ class Solver_8_queens:
         else:
             return child
 
+    def reduction_new_pop(self, new_pop):
+        pop = []
+        for j in range(self.pop_size):
+            max_individ = (new_pop[0], new_pop[0].fit)
+            index_max = 0
+            for k in range(len(new_pop)):
+                if (max_individ[1] <= new_pop[k].fit) and (max_individ[0] != new_pop[k]):
+                    max_individ = (new_pop[k], new_pop[k].fit)
+                    index_max = k
+            pop.append(max_individ[0])
+            del new_pop[index_max]
+
+        return pop
+
     def reform(self, child):
         list_chromosome = []
         temp = 0
@@ -187,22 +202,8 @@ class Solver_8_queens:
             return True
 
     '''
-        ------
+        Вывод
     '''
-    def reduction_new_pop(self, new_pop):
-        pop = []
-        for j in range(self.pop_size):
-            max_individ = (new_pop[0], new_pop[0].fit)
-            index_max = 0
-            for k in range(len(new_pop)):
-                if (max_individ[1] <= new_pop[k].fit) and (max_individ[0] != new_pop[k]):
-                    max_individ = (new_pop[k], new_pop[k].fit)
-                    index_max = k
-            pop.append(max_individ[0])
-            del new_pop[index_max]
-
-        return pop
-
     def create_visualization(self, correct_solution):
         visualization = ""
         _correct_solution = correct_solution
