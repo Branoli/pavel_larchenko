@@ -95,14 +95,12 @@ class Solver_8_queens:
         for k in range(self.pop_size):
             select = random.random()
             for i in range(len(list_rulet)):
-                if select >= list_rulet[i][1][0]:
-                    if select < list_rulet[i][1][1]:
-                        selected_pop.append(list_rulet[i][0])
-                        break
-                if select < list_rulet[i][1][1]:
-                    if select >= list_rulet[i][1][0]:
-                        selected_pop.append(list_rulet[i][0])
-                        break
+                if (select >= list_rulet[i][1][0]) and (select < list_rulet[i][1][1]):
+                    selected_pop.append(list_rulet[i][0])
+                    break
+                if (select < list_rulet[i][1][1]) and (select >= list_rulet[i][1][0]):
+                    selected_pop.append(list_rulet[i][0])
+                    break
         return selected_pop
 
     def to_crossing_over(self, selected_pop):
