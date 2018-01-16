@@ -16,67 +16,41 @@ class Solver_8_queens:
     '''
 
     def solve(self, min_fitness=0.9, max_epochs=10000):
-        best_fit = None
-        epoch_num = None
-        visualization = None
 
         pop = self._create_pop()
         self._search_fit(pop)
 
-        i = 0
-        check = False
-        while i < max_epochs:
+        count_epochs = 0
+        index_correct_solution = None
+        while count_epochs < max_epochs:
             new_pop = self.to_crossing_over(self.selection_individuals(pop))
 
             self._search_fit(new_pop)
-
             pop.clear()
 
-            '''
-                Создание новой популяции из особебй с 
-                максимальным значением fit
-            '''
-            for j in range(self.pop_size):
-                max_ob = (new_pop[0], new_pop[0].fit)
-                index_max = 0
-                for k in range(len(new_pop)):
-                    if (max_ob[1] <= new_pop[k].fit) and (max_ob[0] != new_pop[k]):
-                        max_ob = (new_pop[k], new_pop[k].fit)
-                        index_max = k
-                pop.append(max_ob[0])
-                del new_pop[index_max]
-
+            pop = self.reduction_new_pop(new_pop)
             self._search_fit(pop)
 
             '''
-                Переопределение fit дял новой популяции
+                Поиск правильного решения
             '''
             for j in range(len(pop)):
                 if len(pop[j].correct_chromosomes) == 8:
                     min_fitness = pop[j].fit
-
-            i = i + 1
-
-            '''
-                Проверка и вывод
-            '''
-            for j in range(len(pop)):
-                if pop[j].fit >= min_fitness:
-                    visualization = ""
-                    ff = pop[j].correct_chromosomes
-                    for row in range(8):
-                        for b in range(len(ff)):
-                            if b == int(ff[row], 2):
-                                visualization = visualization + "Q"
-                            else:
-                                visualization = visualization + "+"
-                        visualization = visualization + '\n'
-                    best_fit = min_fitness
-                    epoch_num = i
-                    check = True
+                    index_correct_solution = j
                     break
-            if check:
+
+            if index_correct_solution != None:
                 break
+
+            count_epochs += 1
+
+        '''
+            Вывод
+        '''
+        visualization = self.create_visualization(pop[index_correct_solution].correct_chromosomes)
+        best_fit = min_fitness
+        epoch_num = count_epochs
 
         return best_fit, epoch_num, visualization
 
@@ -211,6 +185,36 @@ class Solver_8_queens:
             return False
         else:
             return True
+
+    '''
+        ------
+    '''
+    def reduction_new_pop(self, new_pop):
+        pop = []
+        for j in range(self.pop_size):
+            max_individ = (new_pop[0], new_pop[0].fit)
+            index_max = 0
+            for k in range(len(new_pop)):
+                if (max_individ[1] <= new_pop[k].fit) and (max_individ[0] != new_pop[k]):
+                    max_individ = (new_pop[k], new_pop[k].fit)
+                    index_max = k
+            pop.append(max_individ[0])
+            del new_pop[index_max]
+
+        return pop
+
+    def create_visualization(self, correct_solution):
+        visualization = ""
+        _correct_solution = correct_solution
+        for row in range(8):
+            for b in range(len(_correct_solution)):
+                if b == int(_correct_solution[row], 2):
+                    visualization = visualization + "Q"
+                else:
+                    visualization = visualization + "+"
+            visualization = visualization + '\n'
+        return visualization
+
 
 
 
