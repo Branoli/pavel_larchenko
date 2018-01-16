@@ -32,25 +32,3 @@ class Individual:
     def _create_genotype(self):
         for i in range(len(self.chromosomes)):
             self.genotype = self.genotype + self.chromosomes[i]
-
-    def get_correct_chromosome(self):
-        return self.count_correct_chromosome
-
-    def get_list_currect_cromosome(self):
-        return self.correct_chromosomes
-
-    def get_list_chromosome(self):
-        return self.chromosomes
-
-    def get_fit(self):
-        return self.fit
-
-    def get_genotype(self):
-        return self.genotype
-
-    def search_fit(self, individuals):
-        summ_fit = 0
-        for i in range(len(individuals)):
-            summ_fit = summ_fit + individuals[i].get_correct_chromosome()
-        self.fit = self.count_correct_chromosome / summ_fit
-

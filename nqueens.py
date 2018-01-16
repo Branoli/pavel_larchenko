@@ -37,12 +37,11 @@ class Solver_8_queens:
                 максимальным значением fit
             '''
             for j in range(self.pop_size):
-                print(len(new_pop))
-                max_ob = (new_pop[0], new_pop[0].get_fit())
+                max_ob = (new_pop[0], new_pop[0].fit)
                 index_max = 0
                 for k in range(len(new_pop)):
-                    if (max_ob[1] <= new_pop[k].get_fit()) and (max_ob[0] != new_pop[k]):
-                        max_ob = (new_pop[k], new_pop[k].get_fit())
+                    if (max_ob[1] <= new_pop[k].fit) and (max_ob[0] != new_pop[k]):
+                        max_ob = (new_pop[k], new_pop[k].fit)
                         index_max = k
                 pop.append(max_ob[0])
                 del new_pop[index_max]
@@ -53,8 +52,8 @@ class Solver_8_queens:
                 Переопределение fit дял новой популяции
             '''
             for j in range(len(pop)):
-                if len(pop[j].get_list_currect_cromosome()) == 8:
-                    min_fitness = pop[j].get_fit()
+                if len(pop[j].correct_chromosomes) == 8:
+                    min_fitness = pop[j].fit
 
             i = i + 1
 
@@ -62,9 +61,9 @@ class Solver_8_queens:
                 Проверка и вывод
             '''
             for j in range(len(pop)):
-                if pop[j].get_fit() >= min_fitness:
+                if pop[j].fit >= min_fitness:
                     visualization = ""
-                    ff = pop[j].get_list_currect_cromosome()
+                    ff = pop[j].correct_chromosomes
                     for row in range(8):
                         for b in range(len(ff)):
                             if b == int(ff[row], 2):
@@ -98,7 +97,10 @@ class Solver_8_queens:
 
     def _search_fit(self, pop):
         for i in range(len(pop)):
-            pop[i].search_fit(pop)
+            summ_fit = 0
+            for j in range(len(pop)):
+                summ_fit = summ_fit + pop[j].count_correct_chromosome
+            pop[i].fit = pop[i].count_correct_chromosome / summ_fit
 
     def selection_individuals(self, pop):
         selected_pop = []
@@ -106,7 +108,7 @@ class Solver_8_queens:
         temp_fit_start = 0
         for i in range(len(pop)):
             temp_fit_end = temp_fit_start
-            temp_fit_start = temp_fit_start + pop[i].get_fit()
+            temp_fit_start = temp_fit_start + pop[i].fit
             list_rulet.append((pop[i], (temp_fit_end, temp_fit_start)))
 
         for k in range(self.pop_size):
@@ -139,18 +141,18 @@ class Solver_8_queens:
 
                 point_crossingover = random.randint(1, 24 - 1)
 
-                one_child = selected_pop[index_one_parent].get_genotype()[0: point_crossingover] + \
-                            selected_pop[index_two_parent].get_genotype()[point_crossingover: len(selected_pop[index_two_parent].get_genotype())]
+                one_child = selected_pop[index_one_parent].genotype[0: point_crossingover] + \
+                            selected_pop[index_two_parent].genotype[point_crossingover: len(selected_pop[index_two_parent].genotype)]
 
-                two_child = selected_pop[index_two_parent].get_genotype()[0: point_crossingover] +\
-                            selected_pop[index_one_parent].get_genotype()[point_crossingover: len(selected_pop[index_one_parent].get_genotype())]
+                two_child = selected_pop[index_two_parent].genotype[0: point_crossingover] +\
+                            selected_pop[index_one_parent].genotype[point_crossingover: len(selected_pop[index_one_parent].genotype)]
 
-                childs.append(individ.Individual(self.reform(self.to_mutate_(one_child))))
-                childs.append(individ.Individual(self.reform(self.to_mutate_(two_child))))
+                childs.append(individ.Individual(self.reform(self.to_mutate(one_child))))
+                childs.append(individ.Individual(self.reform(self.to_mutate(two_child))))
 
         return childs
 
-    def to_mutate_(self, child):
+    def to_mutate(self, child):
         if self.random_mut():
 
             mut_point = random.randint(1, len(child) - 1)
