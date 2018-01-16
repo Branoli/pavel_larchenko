@@ -37,6 +37,7 @@ class Solver_8_queens:
                 максимальным значением fit
             '''
             for j in range(self.pop_size):
+                print(len(new_pop))
                 max_ob = (new_pop[0], new_pop[0].get_fit())
                 index_max = 0
                 for k in range(len(new_pop)):
@@ -56,6 +57,7 @@ class Solver_8_queens:
                     min_fitness = pop[j].get_fit()
 
             i = i + 1
+            print(i)
 
             '''
                 Проверка и вывод
@@ -112,13 +114,19 @@ class Solver_8_queens:
             select = random.random()
             for i in range(len(list_rulet)):
                 if select >= list_rulet[i][1][0]:
-                    if select <= list_rulet[i][1][1]:
+                    if select < list_rulet[i][1][1]:
                         selected_pop.append(list_rulet[i][0])
                         break
-                if select <= list_rulet[i][1][1]:
+                if select < list_rulet[i][1][1]:
                     if select >= list_rulet[i][1][0]:
                         selected_pop.append(list_rulet[i][0])
                         break
+
+        for i in range(len(pop)):
+            for j in range(len(selected_pop)):
+                if pop[i] == selected_pop[j]:
+                    print("++++++++++++++++++++++")
+            print("------------------------------")
 
         return selected_pop
 
@@ -129,19 +137,23 @@ class Solver_8_queens:
         childs = []
 
         for i in range(len(selected_pop)):
-            index_one_parent = random.randint(1, len(selected_pop) - 1)
-            index_two_parent = random.randint(1, len(selected_pop) - 1)
+            if self.random_cross():
+                index_one_parent = random.randint(1, len(selected_pop) - 1)
+                index_two_parent = random.randint(1, len(selected_pop) - 1)
 
-            while index_two_parent == index_one_parent:
-                index_two_parent = random.randint(0, len(selected_pop) - 1)
+                while index_two_parent == index_one_parent:
+                    index_two_parent = random.randint(0, len(selected_pop) - 1)
 
-            point_crossingover = random.randint(1, 24 - 1)
+                point_crossingover = random.randint(1, 24 - 1)
 
-            one_child = selected_pop[index_one_parent].get_genotype()[0: point_crossingover] + selected_pop[index_two_parent].get_genotype()[point_crossingover: len(selected_pop[index_two_parent].get_genotype())]
-            two_child = selected_pop[index_two_parent].get_genotype()[0: point_crossingover] + selected_pop[index_one_parent].get_genotype()[point_crossingover: len(selected_pop[index_one_parent].get_genotype())]
+                one_child = selected_pop[index_one_parent].get_genotype()[0: point_crossingover] + \
+                            selected_pop[index_two_parent].get_genotype()[point_crossingover: len(selected_pop[index_two_parent].get_genotype())]
 
-            childs.append(individ.Individual(self.reform(self.to_mutate_(one_child))))
-            childs.append(individ.Individual(self.reform(self.to_mutate_(two_child))))
+                two_child = selected_pop[index_two_parent].get_genotype()[0: point_crossingover] +\
+                            selected_pop[index_one_parent].get_genotype()[point_crossingover: len(selected_pop[index_one_parent].get_genotype())]
+
+                childs.append(individ.Individual(self.reform(self.to_mutate_(one_child))))
+                childs.append(individ.Individual(self.reform(self.to_mutate_(two_child))))
 
         return childs
 
@@ -193,6 +205,7 @@ class Solver_8_queens:
     '''
     def random_cross(self):
         prob = random.random()
+        print(prob)
         if prob > self.cross_prob:
             return False
         else:

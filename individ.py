@@ -13,6 +13,7 @@ class Individual:
 
         self._search_currect_chromosome()
         self._create_genotype()
+        print(self.genotype)
 
     def _search_currect_chromosome(self):
         for i in range(len(self.chromosomes)):
