@@ -57,7 +57,6 @@ class Solver_8_queens:
                     min_fitness = pop[j].get_fit()
 
             i = i + 1
-            print(i)
 
             '''
                 Проверка и вывод
@@ -121,12 +120,6 @@ class Solver_8_queens:
                     if select >= list_rulet[i][1][0]:
                         selected_pop.append(list_rulet[i][0])
                         break
-
-        for i in range(len(pop)):
-            for j in range(len(selected_pop)):
-                if pop[i] == selected_pop[j]:
-                    print("++++++++++++++++++++++")
-            print("------------------------------")
 
         return selected_pop
 
@@ -205,7 +198,6 @@ class Solver_8_queens:
     '''
     def random_cross(self):
         prob = random.random()
-        print(prob)
         if prob > self.cross_prob:
             return False
         else:
