@@ -24,7 +24,7 @@ class Solver_8_queens:
         count_epochs = 0
         while count_epochs < max_epochs:
 
-            new_pop = self.to_crossing_over(self.selection_individuals(pop))
+            new_pop = self.to_crossing_over(self.create_roulette(pop))
             self.search_fit(new_pop)
 
             pop.clear()
@@ -80,15 +80,18 @@ class Solver_8_queens:
                 summ_fit = summ_fit + pop[j].count_correct_chromosome
             pop[i].fit = pop[i].count_correct_chromosome / summ_fit
 
-    def selection_individuals(self, pop):
-        selected_pop = []
+    def create_roulette(self, pop):
         list_rulet = []
-        temp_fit_start = 0
+        roulette_fit_start = 0
         for i in range(len(pop)):
-            temp_fit_end = temp_fit_start
-            temp_fit_start = temp_fit_start + pop[i].fit
-            list_rulet.append((pop[i], (temp_fit_end, temp_fit_start)))
+            roulette_fit_end = roulette_fit_start
+            roulette_fit_start = roulette_fit_start + pop[i].fit
+            list_rulet.append((pop[i], (roulette_fit_end, roulette_fit_start)))
 
+        return self.twist_roulette(list_rulet)
+
+    def twist_roulette(self, list_rulet):
+        selected_pop = []
         for k in range(self.pop_size):
             select = random.random()
             for i in range(len(list_rulet)):
@@ -100,7 +103,6 @@ class Solver_8_queens:
                     if select >= list_rulet[i][1][0]:
                         selected_pop.append(list_rulet[i][0])
                         break
-
         return selected_pop
 
     def to_crossing_over(self, selected_pop):
