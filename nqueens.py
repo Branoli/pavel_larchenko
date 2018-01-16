@@ -16,12 +16,12 @@ class Solver_8_queens:
     '''
 
     def solve(self, min_fitness=0.9, max_epochs=10000):
+        index_correct_solution = None
 
         pop = self.create_pop()
         self.search_fit(pop)
 
         count_epochs = 0
-        index_correct_solution = None
         while count_epochs < max_epochs:
 
             new_pop = self.to_crossing_over(self.selection_individuals(pop))
@@ -181,7 +181,7 @@ class Solver_8_queens:
         temp = 0
         for i in range(8):
             list_chromosome.append(child[temp: 3 + temp])
-            temp = temp + 3
+            temp += 3
         return list_chromosome
 
     '''
@@ -207,13 +207,13 @@ class Solver_8_queens:
     def create_visualization(self, correct_solution):
         visualization = ""
         _correct_solution = correct_solution
-        for row in range(8):
+        for row in range(len(_correct_solution)):
             for b in range(len(_correct_solution)):
                 if b == int(_correct_solution[row], 2):
-                    visualization = visualization + "Q"
+                    visualization += "Q"
                 else:
-                    visualization = visualization + "+"
-            visualization = visualization + '\n'
+                    visualization += "+"
+            visualization += '\n'
         return visualization
 
 
