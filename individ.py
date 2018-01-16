@@ -19,7 +19,7 @@ class Individual:
             check = True
             for j in range(len(self.chromosomes)):
                 if self.chromosomes[j] != self.chromosomes[i] and i != j:
-                    if round(fabs(int(self.chromosomes[j], 2) - int(self.chromosomes[i], 2))) == round(fabs(j - i)):
+                    if (fabs(int(self.chromosomes[j], 2) - int(self.chromosomes[i], 2))) == (fabs(j - i)):
                         check = False
                         break
                 elif i != j:
