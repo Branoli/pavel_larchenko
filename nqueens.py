@@ -63,8 +63,8 @@ class Solver_8_queens:
         for i in range(self.pop_size):
             individ_list = ["000", "001", "010", "011", "100", "101", "110", "111"]
             for j in range(10):
-                one_index = random.randint(0, 7)
-                two_index = random.randint(0, 7)
+                one_index = random.randint(0, len(individ_list) - 1)
+                two_index = random.randint(0, len(individ_list) - 1)
 
                 temp = individ_list[one_index]
                 individ_list[one_index] = individ_list[two_index]
@@ -117,10 +117,12 @@ class Solver_8_queens:
                 point_crossingover = random.randint(1, 24 - 1)
 
                 one_child = selected_pop[index_one_parent].genotype[0: point_crossingover] + \
-                            selected_pop[index_two_parent].genotype[point_crossingover: len(selected_pop[index_two_parent].genotype)]
+                            selected_pop[index_two_parent].genotype[point_crossingover:
+                                                                    len(selected_pop[index_two_parent].genotype)]
 
                 two_child = selected_pop[index_two_parent].genotype[0: point_crossingover] + \
-                            selected_pop[index_one_parent].genotype[point_crossingover: len(selected_pop[index_one_parent].genotype)]
+                            selected_pop[index_one_parent].genotype[point_crossingover:
+                                                                    len(selected_pop[index_one_parent].genotype)]
 
                 childs.append(individ.Individual(self.reform(self.to_mutate(one_child))))
                 childs.append(individ.Individual(self.reform(self.to_mutate(two_child))))
