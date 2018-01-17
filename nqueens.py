@@ -40,7 +40,6 @@ class Solver_8_queens:
                     min_fitness = pop[j].fit
                     index_correct_solution = j
                     break
-
             if index_correct_solution != None:
                 break
 
@@ -175,8 +174,7 @@ class Solver_8_queens:
         return pop
 
     def reform(self, child):
-        list_chromosome = [child[x: 3 + x] for x in range(0, len(child), 3)]
-        return list_chromosome
+        return [child[x: 3 + x] for x in range(0, len(child), 3)]
 
     '''
         Батюшка-рандом
