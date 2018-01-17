@@ -98,9 +98,6 @@ class Solver_8_queens:
                 if (select >= list_rulet[i][1][0]) and (select < list_rulet[i][1][1]):
                     selected_pop.append(list_rulet[i][0])
                     break
-                if (select < list_rulet[i][1][1]) and (select >= list_rulet[i][1][0]):
-                    selected_pop.append(list_rulet[i][0])
-                    break
         return selected_pop
 
     def to_crossing_over(self, selected_pop):
@@ -114,7 +111,7 @@ class Solver_8_queens:
                 while index_two_parent == index_one_parent:
                     index_two_parent = random.randint(0, len(selected_pop) - 1)
 
-                point_crossingover = random.randint(1, 24 - 1)
+                point_crossingover = random.randint(1, len(selected_pop[index_one_parent].genotype) - 1)
 
                 one_child = selected_pop[index_one_parent].genotype[0: point_crossingover] + \
                             selected_pop[index_two_parent].genotype[point_crossingover:
@@ -175,7 +172,6 @@ class Solver_8_queens:
                     index_max = k
             pop.append(max_individ[0])
             del new_pop[index_max]
-
         return pop
 
     def reform(self, child):
@@ -209,8 +205,8 @@ class Solver_8_queens:
     def create_visualization(self, correct_solution):
         visualization = ""
         for row in range(len(correct_solution)):
-            for b in range(len(correct_solution)):
-                if b == int(correct_solution[row], 2):
+            for column in range(len(correct_solution)):
+                if column == int(correct_solution[row], 2):
                     visualization += "Q"
                 else:
                     visualization += "+"
