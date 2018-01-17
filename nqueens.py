@@ -35,11 +35,8 @@ class Solver_8_queens:
             '''
                 Поиск правильного решения
             '''
-            for j in range(len(pop)):
-                if len(pop[j].correct_chromosomes) == 8:
-                    min_fitness = pop[j].fit
-                    index_correct_solution = j
-                    break
+            min_fitness, index_correct_solution = self.search_correct_solution(pop)
+
             if index_correct_solution != None:
                 break
 
@@ -60,7 +57,7 @@ class Solver_8_queens:
     def create_pop(self):
         pop = []
         for i in range(self.pop_size):
-            individ_list = ["000", "001", "010", "011", "100", "101", "110", "111"]
+            individ_list = ['000', '001', '010', '011', '100', '101', '110', '111']
             for j in range(10):
                 one_index = random.randint(0, len(individ_list) - 1)
                 two_index = random.randint(0, len(individ_list) - 1)
@@ -91,6 +88,7 @@ class Solver_8_queens:
 
     def twist_roulette(self, list_rulet):
         selected_pop = []
+        v = []
         for k in range(self.pop_size):
             select = random.random()
             for i in range(len(list_rulet)):
@@ -206,6 +204,16 @@ class Solver_8_queens:
                     visualization += "+"
             visualization += '\n'
         return visualization
+
+    def search_correct_solution(self, pop):
+        min_fitness = None
+        index_correct_solution = None
+        for j in range(len(pop)):
+            if len(pop[j].correct_chromosomes) == 8:
+                min_fitness = pop[j].fit
+                index_correct_solution = j
+                break
+        return min_fitness, index_correct_solution
 
 
 
