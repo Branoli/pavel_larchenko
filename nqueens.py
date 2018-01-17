@@ -206,10 +206,9 @@ class Solver_8_queens:
     '''
     def create_visualization(self, correct_solution):
         visualization = ""
-        _correct_solution = correct_solution
-        for row in range(len(_correct_solution)):
-            for b in range(len(_correct_solution)):
-                if b == int(_correct_solution[row], 2):
+        for row in range(len(correct_solution)):
+            for b in range(len(correct_solution)):
+                if b == int(correct_solution[row], 2):
                     visualization += "Q"
                 else:
                     visualization += "+"
