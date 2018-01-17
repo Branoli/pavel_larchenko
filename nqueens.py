@@ -175,11 +175,7 @@ class Solver_8_queens:
         return pop
 
     def reform(self, child):
-        list_chromosome = []
-        temp = 0
-        for i in range(8):
-            list_chromosome.append(child[temp: 3 + temp])
-            temp += 3
+        list_chromosome = [child[x: 3 + x] for x in range(0, len(child), 3)]
         return list_chromosome
 
     '''
