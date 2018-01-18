@@ -32,9 +32,6 @@ class Solver_8_queens:
             pop = self.reduction_new_pop(new_pop)
             self.search_fit(pop)
 
-            '''
-                Поиск правильного решения
-            '''
             min_fitness, index_correct_solution = self.search_correct_solution(pop)
 
             if index_correct_solution != None:
@@ -125,36 +122,16 @@ class Solver_8_queens:
 
     def to_mutate(self, child):
         if self.random_mut():
-
             mut_point = random.randint(1, len(child) - 1)
 
-            one_part = child[0: mut_point - 1]
-            two_part = child[mut_point: len(child)]
+            if child[mut_point] == "1":
+                child = child[0: mut_point] + "0" + child[mut_point + 1: len(child)]
 
-            if child[mut_point - 1: mut_point] == "0":
-
-                if one_part == '':
-                    mut_child = "1" + two_part
-
-                elif two_part == '':
-                    mut_child = one_part + "1"
-
-                else:
-                    mut_child = one_part + "1" + two_part
-
-                child = mut_child
-            else:
-                if one_part == '':
-                    mut_child = "0" + two_part
-
-                elif two_part == '':
-                    mut_child = one_part + "0"
-
-                else:
-                    mut_child = one_part + "0" + two_part
-                child = mut_child
+            elif child[mut_point] == "0":
+                child = child[0: mut_point] + "1" + child[mut_point + 1: len(child)]
 
             return child
+
         else:
             return child
 
