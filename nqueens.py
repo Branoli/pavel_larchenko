@@ -155,15 +155,13 @@ class Solver_8_queens:
         Батюшка-рандом
     '''
     def random_cross(self):
-        prob = random.random()
-        if prob > self.cross_prob:
+        if random.random() > self.cross_prob:
             return False
         else:
             return True
 
     def random_mut(self):
-        prob = random.random()
-        if prob > self.mut_prob:
+        if random.random() > self.mut_prob:
             return False
         else:
             return True
