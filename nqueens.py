@@ -15,15 +15,12 @@ class Solver_8_queens:
     Dummy method representing proper interface
     '''
 
-    def solve(self, min_fitness=0.9, max_epochs=10000):
-        index_correct_solution = None
-
+    def solve(self, min_fitness=0.020, max_epochs=10000):
         pop = self.create_pop()
         self.search_fit(pop)
 
         count_epochs = 0
         while count_epochs < max_epochs:
-
             new_pop = self.to_crossing_over(self.create_roulette(pop))
             self.search_fit(new_pop)
 
@@ -31,18 +28,16 @@ class Solver_8_queens:
 
             pop = self.reduction_new_pop(new_pop)
             self.search_fit(pop)
+            pop.sort(key=self.sort_individ_fit)
 
-            min_fitness, index_correct_solution = self.search_correct_solution(pop)
-
-            if index_correct_solution != None:
+            if pop[self.pop_size - 1].count_correct_chromosome == 8 and pop[self.pop_size - 1].fit >= min_fitness:
                 break
-
             count_epochs += 1
 
         '''
             Вывод
         '''
-        visualization = self.create_visualization(pop[index_correct_solution].correct_chromosomes)
+        visualization = self.create_visualization(pop[self.pop_size - 1].correct_chromosomes)
         best_fit = min_fitness
         epoch_num = count_epochs
 
@@ -55,23 +50,16 @@ class Solver_8_queens:
         pop = []
         for i in range(self.pop_size):
             individ_list = ['000', '001', '010', '011', '100', '101', '110', '111']
-            for j in range(10):
-                one_index = random.randint(0, len(individ_list) - 1)
-                two_index = random.randint(0, len(individ_list) - 1)
-
-                temp = individ_list[one_index]
-                individ_list[one_index] = individ_list[two_index]
-                individ_list[two_index] = temp
+            random.shuffle(individ_list)
             pop.append(individ.Individual(individ_list))
-
         return pop
 
     def search_fit(self, pop):
+        summ_correcet_chromosome = 0
+        for j in range(len(pop)):
+            summ_correcet_chromosome = summ_correcet_chromosome + pop[j].count_correct_chromosome
         for i in range(len(pop)):
-            summ_fit = 0
-            for j in range(len(pop)):
-                summ_fit = summ_fit + pop[j].count_correct_chromosome
-            pop[i].fit = pop[i].count_correct_chromosome / summ_fit
+            pop[i].fit = pop[i].count_correct_chromosome / summ_correcet_chromosome
 
     def create_roulette(self, pop):
         list_rulet = []
@@ -85,7 +73,6 @@ class Solver_8_queens:
 
     def twist_roulette(self, list_rulet):
         selected_pop = []
-        v = []
         for k in range(self.pop_size):
             select = random.random()
             for i in range(len(list_rulet)):
@@ -122,7 +109,7 @@ class Solver_8_queens:
 
     def to_mutate(self, child):
         if self.random_mut():
-            mut_point = random.randint(1, len(child) - 1)
+            mut_point = random.randint(0, len(child) - 1)
 
             if child[mut_point] == "1":
                 child = child[0: mut_point] + "0" + child[mut_point + 1: len(child)]
@@ -136,17 +123,7 @@ class Solver_8_queens:
             return child
 
     def reduction_new_pop(self, new_pop):
-        pop = []
-        for j in range(self.pop_size):
-            max_individ = (new_pop[0], new_pop[0].fit)
-            index_max = 0
-            for k in range(len(new_pop)):
-                if (max_individ[1] <= new_pop[k].fit) and (max_individ[0] != new_pop[k]):
-                    max_individ = (new_pop[k], new_pop[k].fit)
-                    index_max = k
-            pop.append(max_individ[0])
-            del new_pop[index_max]
-        return pop
+        return sorted(new_pop, key=self.sort_individ_fit)[self.pop_size:]
 
     def reform(self, child):
         return [child[x: 3 + x] for x in range(0, len(child), 3)]
@@ -180,12 +157,5 @@ class Solver_8_queens:
             visualization += '\n'
         return visualization
 
-    def search_correct_solution(self, pop):
-        min_fitness = None
-        index_correct_solution = None
-        for j in range(len(pop)):
-            if len(pop[j].correct_chromosomes) == 8:
-                min_fitness = pop[j].fit
-                index_correct_solution = j
-                break
-        return min_fitness, index_correct_solution
+    def sort_individ_fit(self, individ):
+        return individ.fit
