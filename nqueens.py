@@ -30,9 +30,10 @@ class Solver_8_queens:
             self.search_fit(pop)
             pop.sort(key=self.sort_individ_fit)
 
+            count_epochs += 1
+            
             if pop[self.pop_size - 1].count_correct_chromosome == 8 and pop[self.pop_size - 1].fit >= min_fitness:
                 break
-            count_epochs += 1
 
         '''
             Вывод
@@ -116,7 +117,6 @@ class Solver_8_queens:
 
             elif child[mut_point] == "0":
                 child = child[0: mut_point] + "1" + child[mut_point + 1: len(child)]
-
             return child
 
         else:
