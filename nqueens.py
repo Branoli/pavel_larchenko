@@ -189,7 +189,3 @@ class Solver_8_queens:
                 index_correct_solution = j
                 break
         return min_fitness, index_correct_solution
-
-
-
-

@@ -20,7 +20,7 @@ class Individual:
             for j in range(len(self.chromosomes)):
                 if self.chromosomes[j] != self.chromosomes[i] \
                         and i != j \
-                        and fabs(int(self.chromosomes[j], 2) ^ int(self.chromosomes[i], 2)) == fabs(j ^ i):
+                        and fabs(int(self.chromosomes[j], 2) - int(self.chromosomes[i], 2)) == fabs(j - i):
                     check = False
                     break
                 elif self.chromosomes[j] == self.chromosomes[i] and i != j:
