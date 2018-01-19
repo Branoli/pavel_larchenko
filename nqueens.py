@@ -15,7 +15,7 @@ class Solver_8_queens:
     Dummy method representing proper interface
     '''
 
-    def solve(self, min_fitness=0.020, max_epochs=10000):
+    def solve(self, min_fitness=1, max_epochs=10000):
         pop = self.create_pop()
         self.search_fit(pop)
 
@@ -31,8 +31,8 @@ class Solver_8_queens:
             pop.sort(key=self.sort_individ_fit)
 
             count_epochs += 1
-            
-            if pop[self.pop_size - 1].count_correct_chromosome == 8 and pop[self.pop_size - 1].fit >= min_fitness:
+
+            if (pop[self.pop_size - 1].count_correct_chromosome / 8) == min_fitness:
                 break
 
         '''
