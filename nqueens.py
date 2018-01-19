@@ -24,7 +24,7 @@ class Solver_8_queens:
             new_pop = self.to_crossing_over(self.create_roulette(pop))
             self.search_fit(new_pop)
 
-            pop = sorted(self.reduction_pop(pop, new_pop), key=self.sort_individ_fit)[-self.pop_size:]
+            pop = sorted(self.reduction_pop(pop, new_pop), key=self.sort_individ_fit)
             self.search_fit(pop)
 
             count_epochs += 1
