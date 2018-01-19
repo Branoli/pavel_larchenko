@@ -28,7 +28,6 @@ class Solver_8_queens:
 
             pop = sorted(new_pop, key=self.sort_individ_fit)[-self.pop_size:]
             self.search_fit(pop)
-            pop.sort(key=self.sort_individ_fit)
 
             count_epochs += 1
 
