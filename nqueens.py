@@ -24,9 +24,7 @@ class Solver_8_queens:
             new_pop = self.to_crossing_over(self.create_roulette(pop))
             self.search_fit(new_pop)
 
-            pop.clear()
-
-            pop = sorted(new_pop, key=self.sort_individ_fit)[-self.pop_size:]
+            pop = sorted(self.reduction_pop(pop, new_pop), key=self.sort_individ_fit)[-self.pop_size:]
             self.search_fit(pop)
 
             count_epochs += 1
@@ -123,6 +121,17 @@ class Solver_8_queens:
     def reform(self, child):
         return [child[x: 3 + x] for x in range(0, len(child), 3)]
 
+    def reduction_pop(self, pop, new_pop):
+        pop.sort(key=self.sort_individ_fit)
+        new_pop.sort(key=self.sort_individ_fit)
+
+        for i in range(self.pop_size):
+            if (pop[i].count_correct_chromosome / 8) <= (new_pop[len(new_pop) - 1 - i].count_correct_chromosome / 8):
+                pop[i] = new_pop[len(new_pop) - 1 - i]
+            else:
+                break
+        return pop
+
     '''
         Батюшка-рандом
     '''
@@ -149,3 +158,4 @@ class Solver_8_queens:
 
     def sort_individ_fit(self, individ):
         return individ.fit
+
