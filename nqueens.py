@@ -15,7 +15,7 @@ class Solver_8_queens:
     Dummy method representing proper interface
     '''
 
-    def solve(self, min_fitness=1, max_epochs=10000):
+    def solve(self, min_fitness=1.0, max_epochs=10000):
         pop = self.create_pop()
         self.search_fit(pop)
 
@@ -26,7 +26,7 @@ class Solver_8_queens:
 
             pop.clear()
 
-            pop = self.reduction_new_pop(new_pop)
+            pop = sorted(new_pop, key=self.sort_individ_fit)[-self.pop_size:]
             self.search_fit(pop)
             pop.sort(key=self.sort_individ_fit)
 
@@ -105,7 +105,6 @@ class Solver_8_queens:
 
                 childs.append(individ.Individual(self.reform(self.to_mutate(one_child))))
                 childs.append(individ.Individual(self.reform(self.to_mutate(two_child))))
-
         return childs
 
     def to_mutate(self, child):
@@ -121,9 +120,6 @@ class Solver_8_queens:
 
         else:
             return child
-
-    def reduction_new_pop(self, new_pop):
-        return sorted(new_pop, key=self.sort_individ_fit)[self.pop_size:]
 
     def reform(self, child):
         return [child[x: 3 + x] for x in range(0, len(child), 3)]
