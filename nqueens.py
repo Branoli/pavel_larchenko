@@ -110,15 +110,13 @@ class Solver_8_queens:
     def to_mutate(self, child):
         if self.random_mut():
             mut_point = random.randint(0, len(child) - 1)
-            '''
-                Мне кажется, что это не читаемо, но если надо делать так, то я сделаю так везду
-                (про if ниже)
-            '''
-            if (child[mut_point] == "1") or (child[mut_point] == "0"):
-                return child[0: mut_point] + "0" + child[mut_point + 1: len(child)] if child[mut_point] != "0" \
-                                                                                    else child[0: mut_point] + "1" + \
-                                                                                        child[mut_point + 1: len(child)]
 
+            if child[mut_point] == "1":
+                child = child[0: mut_point] + "0" + child[mut_point + 1: len(child)]
+
+            elif child[mut_point] == "0":
+                child = child[0: mut_point] + "1" + child[mut_point + 1: len(child)]
+                               
             return child
 
         else:
