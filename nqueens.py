@@ -116,7 +116,6 @@ class Solver_8_queens:
 
             elif child[mut_point] == "0":
                 child = child[0: mut_point] + "1" + child[mut_point + 1: len(child)]
-                               
             return child
 
         else:
@@ -129,17 +128,12 @@ class Solver_8_queens:
         Батюшка-рандом
     '''
     def random_cross(self):
-        if random.random() > self.cross_prob:
-            return False
-        else:
-            return True
+        if random.random() > self.cross_prob or random.random() < self.cross_prob:
+            return False if random.random() > self.cross_prob else True
 
     def random_mut(self):
-        if random.random() > self.mut_prob:
-            return False
-        else:
-            return True
-
+        if random.random() > self.mut_prob or random.random() < self.mut_prob:
+            return False if random.random() > self.mut_prob else True
     '''
         Вывод
     '''
