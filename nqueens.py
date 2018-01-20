@@ -22,14 +22,13 @@ class Solver_8_queens:
         count_epochs = 0
         while count_epochs < max_epochs:
             new_pop = self.to_crossing_over(self.create_roulette(pop))
-            self.search_fit(new_pop)
 
             pop = sorted(self.reduction_pop(pop, new_pop), key=self.sort_individ_fit)
             self.search_fit(pop)
 
             count_epochs += 1
 
-            if (pop[self.pop_size - 1].count_correct_chromosome / 8) == min_fitness:
+            if pop[self.pop_size - 1].target_function == min_fitness:
                 break
 
         '''
@@ -122,11 +121,11 @@ class Solver_8_queens:
         return [child[x: 3 + x] for x in range(0, len(child), 3)]
 
     def reduction_pop(self, pop, new_pop):
-        pop.sort(key=self.sort_individ_fit)
-        new_pop.sort(key=self.sort_individ_fit)
+        pop.sort(key=self.sort_individ_target_function)
+        new_pop.sort(key=self.sort_individ_target_function)
 
         for i in range(self.pop_size):
-            if (pop[i].count_correct_chromosome / 8) <= (new_pop[len(new_pop) - 1 - i].count_correct_chromosome / 8):
+            if pop[i].target_function <= new_pop[len(new_pop) - 1 - i].target_function:
                 pop[i] = new_pop[len(new_pop) - 1 - i]
             else:
                 break
@@ -158,4 +157,7 @@ class Solver_8_queens:
 
     def sort_individ_fit(self, individ):
         return individ.fit
+
+    def sort_individ_target_function(self, individ):
+        return individ.target_function
 

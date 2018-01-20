@@ -13,6 +13,8 @@ class Individual:
         self._search_correct_chromosome(list_chromosome)
         self._create_genotype(list_chromosome)
 
+        self.target_function = self.count_correct_chromosome / 8
+
     def _search_correct_chromosome(self, list_chromosome):
         for i in range(len(list_chromosome)):
             check = True
