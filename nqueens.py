@@ -60,11 +60,11 @@ class Solver_8_queens:
 
     def create_roulette(self, pop):
         roulette = []
-        part_roulette_end = 0
+        sector_roulette_end = 0
         for i in range(len(pop)):
-            part_roulette_start = part_roulette_end
-            part_roulette_end = part_roulette_end + pop[i].fit
-            roulette.append((pop[i], (part_roulette_start, part_roulette_end)))
+            sector_roulette_start = sector_roulette_end
+            sector_roulette_end = sector_roulette_end + pop[i].fit
+            roulette.append((pop[i], (sector_roulette_start, sector_roulette_end)))
 
         return self.twist_roulette(roulette)
 
