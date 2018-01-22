@@ -7,7 +7,7 @@ class Solver_8_queens:
     '''
     Dummy constructor representing proper interface
     '''
-    def __init__(self, pop_size=75, cross_prob=1, mut_prob=1):
+    def __init__(self, pop_size=700, cross_prob=1, mut_prob=1):
         self.pop_size = pop_size
         self.cross_prob = cross_prob
         self.mut_prob = mut_prob
