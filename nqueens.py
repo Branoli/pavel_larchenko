@@ -15,7 +15,7 @@ class Solver_8_queens:
     Dummy method representing proper interface
     '''
 
-    def solve(self, min_fitness=1.0, max_epochs=10000):
+    def solve(self, min_fitness=1.0, max_epochs=1000):
         pop = self.create_pop()
         self.search_fit(pop)
 
@@ -52,9 +52,7 @@ class Solver_8_queens:
         return pop
 
     def search_fit(self, pop):
-        sum_correct_chromosomes = 0
-        for j in range(len(pop)):
-            sum_correct_chromosomes = sum_correct_chromosomes + pop[j].count_correct_chromosome
+        sum_correct_chromosomes = sum([pop[i].count_correct_chromosome for i in range(len(pop))])
         for i in range(len(pop)):
             pop[i].fit = pop[i].count_correct_chromosome / sum_correct_chromosomes
 
