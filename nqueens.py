@@ -15,7 +15,8 @@ class Solver_8_queens:
     Dummy method representing proper interface
     '''
 
-    def solve(self, min_fitness=1.0, max_epochs=1000):
+    def solve(self, min_fitness=1.0, max_epochs=10000):
+        if max_epochs is None: max_epochs = 0
         pop = self.create_pop()
         self.search_fit(pop)
 
@@ -23,7 +24,7 @@ class Solver_8_queens:
         while count_epochs < max_epochs:
             new_pop = self.to_crossing_over(self.create_roulette(pop))
 
-            pop = sorted(self.reduction_pop(pop, new_pop), key=self.sort_individ_fit)
+            pop = self.reduction_pop(pop, new_pop)
             self.search_fit(pop)
             pop.sort(key=self.sort_individ_fit)
 
