@@ -15,28 +15,24 @@ class Solver_8_queens:
     Dummy method representing proper interface
     '''
 
-    def solve(self, min_fitness=1.0, max_epochs=10000):
+    def solve(self, min_fitness=0.9, max_epochs=10000):
         if max_epochs is None: max_epochs = 0
         pop = self.create_pop()
         self.search_fit(pop)
 
         count_epochs = 0
-        while count_epochs < max_epochs:
+        while (count_epochs < max_epochs) and (pop[-1].target_function < min_fitness):
             new_pop = self.to_crossing_over(self.create_roulette(pop))
 
             pop = self.reduction_pop(pop, new_pop)
             self.search_fit(pop)
-            pop.sort(key=self.sort_individ_fit)
 
             count_epochs += 1
-
-            if pop[self.pop_size - 1].target_function == min_fitness:
-                break
 
         '''
             Вывод
         '''
-        visualization = self.create_visualization(pop[self.pop_size - 1].list_correct_chromosomes)
+        visualization = self.create_visualization(pop[-1].list_correct_chromosomes)
         best_fit = min_fitness
         epoch_num = count_epochs
 
@@ -121,15 +117,9 @@ class Solver_8_queens:
         return [child[x: 3 + x] for x in range(0, len(child), 3)]
 
     def reduction_pop(self, pop, new_pop):
-        pop.sort(key=self.sort_individ_target_function)
-        new_pop.sort(key=self.sort_individ_target_function)
-
-        for i in range(self.pop_size):
-            if pop[i].target_function <= new_pop[len(new_pop) - 1 - i].target_function:
-                pop[i] = new_pop[len(new_pop) - 1 - i]
-            else:
-                break
-        return pop
+        pop = pop + new_pop
+        pop.sort(key=lambda individ: individ.target_function)
+        return pop[-self.pop_size:]
 
     '''
         Батюшка-рандом
@@ -154,10 +144,3 @@ class Solver_8_queens:
                     visualization += "+"
             visualization += '\n'
         return visualization
-
-    def sort_individ_fit(self, individ):
-        return individ.fit
-
-    def sort_individ_target_function(self, individ):
-        return individ.target_function
-
