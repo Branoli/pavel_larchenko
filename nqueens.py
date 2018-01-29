@@ -7,10 +7,12 @@ class Solver_8_queens:
     '''
     Dummy constructor representing proper interface
     '''
+
     def __init__(self, pop_size=700, cross_prob=1, mut_prob=1):
         self.pop_size = pop_size
         self.cross_prob = cross_prob
         self.mut_prob = mut_prob
+
     '''
     Dummy method representing proper interface
     '''
@@ -18,7 +20,7 @@ class Solver_8_queens:
     def solve(self, min_fitness=0.9, max_epochs=10000):
         if max_epochs is None: max_epochs = float('inf')
         if min_fitness is None: min_fitness = float('inf')
-        
+
         pop = self.create_pop()
         self.search_fit(pop)
 
@@ -43,6 +45,7 @@ class Solver_8_queens:
     '''
         Геннетический алгоритм
     '''
+
     def create_pop(self):
         pop = []
         for i in range(self.pop_size):
@@ -126,6 +129,7 @@ class Solver_8_queens:
     '''
         Батюшка-рандом
     '''
+
     def random_cross(self):
         if random.random() > self.cross_prob or random.random() < self.cross_prob:
             return False if random.random() > self.cross_prob else True
@@ -133,9 +137,11 @@ class Solver_8_queens:
     def random_mut(self):
         if random.random() > self.mut_prob or random.random() < self.mut_prob:
             return False if random.random() > self.mut_prob else True
+
     '''
         Вывод
     '''
+
     def create_visualization(self, correct_solution):
         visualization = ""
         for row in range(len(correct_solution)):
