@@ -66,24 +66,24 @@ class Solver_8_queens:
         childs = []
         for i in range(len(selected_pop)):
             if self.random_cross():
-                index_one_parent = random.randint(1, len(selected_pop) - 1)
+                index_first_parent = random.randint(1, len(selected_pop) - 1)
                 index_two_parent = random.randint(1, len(selected_pop) - 1)
-                while index_two_parent == index_one_parent:
+                while index_two_parent == index_first_parent:
                     index_two_parent = random.randint(0, len(selected_pop) - 1)
 
                 points_cros = []
                 first_child, second_chaild = "", ""
-                first_parent, second_parent = selected_pop[index_one_parent], selected_pop[index_two_parent]
+                first_parent, second_parent = selected_pop[index_first_parent], selected_pop[index_two_parent]
 
                 points_cros.append(0)
-                for g in range(count_cross_points):
+                for j in range(count_cross_points):
                     points_cros.append(random.randint(points_cros[-1] + 1,
-                                       len(selected_pop[index_one_parent].genotype) - count_cross_points + g))
-                points_cros.append(len(selected_pop[index_one_parent].genotype))
+                                       len(selected_pop[index_first_parent].genotype) - count_cross_points + j))
+                points_cros.append(len(selected_pop[index_first_parent].genotype))
 
-                for i in range(1, len(points_cros)):
-                    first_child += first_parent.genotype[points_cros[i - 1]:points_cros[i]]
-                    second_chaild += second_parent.genotype[points_cros[i - 1]:points_cros[i]]
+                for j in range(1, len(points_cros)):
+                    first_child += first_parent.genotype[points_cros[j - 1]:points_cros[j]]
+                    second_chaild += second_parent.genotype[points_cros[j - 1]:points_cros[j]]
                     first_parent, second_parent = first_parent, second_parent
 
                 childs.append(individ.Individual(self.reform(self.to_mutate(first_child))))
