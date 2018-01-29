@@ -16,7 +16,9 @@ class Solver_8_queens:
     '''
 
     def solve(self, min_fitness=0.9, max_epochs=10000):
-        if max_epochs is None: max_epochs = 0
+        if max_epochs is None: max_epochs = float('inf')
+        if min_fitness is None: min_fitness = float('inf')
+        
         pop = self.create_pop()
         self.search_fit(pop)
 
