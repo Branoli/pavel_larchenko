@@ -7,7 +7,7 @@ class Solver_8_queens:
     '''
     Dummy constructor representing proper interface
     '''
-    def __init__(self, pop_size=400, cross_prob=1, mut_prob=1):
+    def __init__(self, pop_size=500, cross_prob=1, mut_prob=1):
         self.pop_size = pop_size
         self.cross_prob = cross_prob
         self.mut_prob = mut_prob
@@ -59,21 +59,21 @@ class Solver_8_queens:
     def tournament_selection(self, pop):
         selected_individuals = []
         for i in range(len(pop)):
-            selected_individuals.append(max(random.sample(pop, 2), key=lambda individ: individ.target_function))
+            selected_individuals.append(max(random.sample(pop, 2), key=lambda individ: individ.fit))
         return selected_individuals
 
-    def to_crossing_over(self, selected_pop, count_cross_points=5):
+    def to_crossing_over(self, selected_pop, count_cross_points=3):
         childs = []
         for i in range(len(selected_pop)):
             if self.random_cross():
                 index_first_parent = random.randint(1, len(selected_pop) - 1)
-                index_two_parent = random.randint(1, len(selected_pop) - 1)
-                while index_two_parent == index_first_parent:
-                    index_two_parent = random.randint(0, len(selected_pop) - 1)
+                index_second_parent = random.randint(1, len(selected_pop) - 1)
+                while index_second_parent == index_first_parent:
+                    index_second_parent = random.randint(0, len(selected_pop) - 1)
 
                 points_cros = []
                 first_child, second_chaild = "", ""
-                first_parent, second_parent = selected_pop[index_first_parent], selected_pop[index_two_parent]
+                first_parent, second_parent = selected_pop[index_first_parent], selected_pop[index_second_parent]
 
                 points_cros.append(0)
                 for j in range(count_cross_points):
