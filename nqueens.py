@@ -16,15 +16,13 @@ class Solver_8_queens:
     '''
 
     def solve(self, min_fitness=0.9, max_epochs=10000):
-        if max_epochs is None: max_epochs = float('inf')
-        if min_fitness is None: min_fitness = float('inf')
-
+        if max_epochs is None: max_epochs = 0
         pop = self.create_pop()
         self.search_fit(pop)
 
         count_epochs = 0
         while (count_epochs < max_epochs) and (pop[-1].target_function < min_fitness):
-            new_pop = self.to_crossing_over(self.tournament_selection(pop))
+            new_pop = self.to_crossing_over(self.create_roulette(pop))
 
             pop = self.reduction_pop(pop, new_pop)
             self.search_fit(pop)
@@ -56,41 +54,49 @@ class Solver_8_queens:
         for i in range(len(pop)):
             pop[i].fit = pop[i].count_correct_chromosome / sum_correct_chromosomes
 
-    def tournament_selection(self, pop):
-        selected_individuals = []
+    def create_roulette(self, pop):
+        roulette = []
+        sector_roulette_end = 0
         for i in range(len(pop)):
-            selected_individuals.append(max(random.sample(pop, 2), key=lambda individ: individ.target_function))
-        return selected_individuals
+            sector_roulette_start = sector_roulette_end
+            sector_roulette_end = sector_roulette_end + pop[i].fit
+            roulette.append((pop[i], (sector_roulette_start, sector_roulette_end)))
+
+        return self.twist_roulette(roulette)
+
+    def twist_roulette(self, roulette):
+        choosed_individuals = []
+        for k in range(self.pop_size):
+            roulette_selection = random.random()
+            for i in range(len(roulette)):
+                if (roulette_selection >= roulette[i][1][0]) and (roulette_selection < roulette[i][1][1]):
+                    choosed_individuals.append(roulette[i][0])
+                    break
+        return choosed_individuals
 
     def to_crossing_over(self, selected_pop):
         childs = []
+
         for i in range(len(selected_pop)):
             if self.random_cross():
-
                 index_one_parent = random.randint(1, len(selected_pop) - 1)
                 index_two_parent = random.randint(1, len(selected_pop) - 1)
 
                 while index_two_parent == index_one_parent:
                     index_two_parent = random.randint(0, len(selected_pop) - 1)
 
-                point_crossingover_first = random.randint(1, len(selected_pop[index_one_parent].genotype) - 2)
-                point_crossingover_second = random.randint(point_crossingover_first + 1,
-                                                           len(selected_pop[index_one_parent].genotype) - 1)
+                point_crossingover = random.randint(1, len(selected_pop[index_one_parent].genotype) - 1)
 
-                first_child = selected_pop[index_one_parent].genotype[0: point_crossingover_first] + \
-                              selected_pop[index_two_parent].genotype[point_crossingover_first:
-                                                                      point_crossingover_second] + \
-                              selected_pop[index_one_parent].genotype[point_crossingover_second:
-                                                                      len(selected_pop[index_two_parent].genotype)]
+                one_child = selected_pop[index_one_parent].genotype[0: point_crossingover] + \
+                            selected_pop[index_two_parent].genotype[point_crossingover:
+                                                                    len(selected_pop[index_two_parent].genotype)]
 
-                second_chaild = selected_pop[index_two_parent].genotype[0: point_crossingover_first] + \
-                                selected_pop[index_one_parent].genotype[point_crossingover_first:
-                                                                        point_crossingover_second] + \
-                                selected_pop[index_two_parent].genotype[point_crossingover_second:
-                                                                        len(selected_pop[index_two_parent].genotype)]
+                two_child = selected_pop[index_two_parent].genotype[0: point_crossingover] + \
+                            selected_pop[index_one_parent].genotype[point_crossingover:
+                                                                    len(selected_pop[index_one_parent].genotype)]
 
-                childs.append(individ.Individual(self.reform(self.to_mutate(first_child))))
-                childs.append(individ.Individual(self.reform(self.to_mutate(second_chaild))))
+                childs.append(individ.Individual(self.reform(self.to_mutate(one_child))))
+                childs.append(individ.Individual(self.reform(self.to_mutate(two_child))))
         return childs
 
     def to_mutate(self, child):
