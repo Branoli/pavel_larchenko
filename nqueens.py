@@ -73,8 +73,7 @@ class Solver_8_queens:
 
                 points_cros = []
                 first_child, second_chaild = "", ""
-                first_parent = selected_pop[index_one_parent]
-                second_parent = selected_pop[index_two_parent]
+                first_parent, second_parent = selected_pop[index_one_parent], selected_pop[index_two_parent]
 
                 points_cros.append(0)
                 for g in range(count_cross_points):
