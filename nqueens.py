@@ -7,7 +7,7 @@ class Solver_8_queens:
     '''
     Dummy constructor representing proper interface
     '''
-    def __init__(self, pop_size=700, cross_prob=1, mut_prob=1):
+    def __init__(self, pop_size=1000, cross_prob=1, mut_prob=1):
         self.pop_size = pop_size
         self.cross_prob = cross_prob
         self.mut_prob = mut_prob
@@ -16,7 +16,9 @@ class Solver_8_queens:
     '''
 
     def solve(self, min_fitness=0.9, max_epochs=10000):
-        if max_epochs is None: max_epochs = 0
+        if max_epochs is None: max_epochs = float('inf')
+        if min_fitness is None: min_fitness = float('inf')
+
         pop = self.create_pop()
         self.search_fit(pop)
 
@@ -79,24 +81,7 @@ class Solver_8_queens:
 
         for i in range(len(selected_pop)):
             if self.random_cross():
-                index_one_parent = random.randint(1, len(selected_pop) - 1)
-                index_two_parent = random.randint(1, len(selected_pop) - 1)
-
-                while index_two_parent == index_one_parent:
-                    index_two_parent = random.randint(0, len(selected_pop) - 1)
-
-                point_crossingover = random.randint(1, len(selected_pop[index_one_parent].genotype) - 1)
-
-                one_child = selected_pop[index_one_parent].genotype[0: point_crossingover] + \
-                            selected_pop[index_two_parent].genotype[point_crossingover:
-                                                                    len(selected_pop[index_two_parent].genotype)]
-
-                two_child = selected_pop[index_two_parent].genotype[0: point_crossingover] + \
-                            selected_pop[index_one_parent].genotype[point_crossingover:
-                                                                    len(selected_pop[index_one_parent].genotype)]
-
-                childs.append(individ.Individual(self.reform(self.to_mutate(one_child))))
-                childs.append(individ.Individual(self.reform(self.to_mutate(two_child))))
+                pass
         return childs
 
     def to_mutate(self, child):
