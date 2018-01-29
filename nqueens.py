@@ -62,32 +62,30 @@ class Solver_8_queens:
             selected_individuals.append(max(random.sample(pop, 2), key=lambda individ: individ.target_function))
         return selected_individuals
 
-    def to_crossing_over(self, selected_pop):
+    def to_crossing_over(self, selected_pop, count_cross_points=5):
         childs = []
         for i in range(len(selected_pop)):
             if self.random_cross():
-
                 index_one_parent = random.randint(1, len(selected_pop) - 1)
                 index_two_parent = random.randint(1, len(selected_pop) - 1)
-
                 while index_two_parent == index_one_parent:
                     index_two_parent = random.randint(0, len(selected_pop) - 1)
 
-                point_crossingover_first = random.randint(1, len(selected_pop[index_one_parent].genotype) - 2)
-                point_crossingover_second = random.randint(point_crossingover_first + 1,
-                                                           len(selected_pop[index_one_parent].genotype) - 1)
+                points_cros = []
+                first_child, second_chaild = "", ""
+                first_parent = selected_pop[index_one_parent]
+                second_parent = selected_pop[index_two_parent]
 
-                first_child = selected_pop[index_one_parent].genotype[0: point_crossingover_first] + \
-                              selected_pop[index_two_parent].genotype[point_crossingover_first:
-                                                                      point_crossingover_second] + \
-                              selected_pop[index_one_parent].genotype[point_crossingover_second:
-                                                                      len(selected_pop[index_two_parent].genotype)]
+                points_cros.append(0)
+                for g in range(count_cross_points):
+                    points_cros.append(random.randint(points_cros[-1] + 1,
+                                       len(selected_pop[index_one_parent].genotype) - count_cross_points + g))
+                points_cros.append(len(selected_pop[index_one_parent].genotype))
 
-                second_chaild = selected_pop[index_two_parent].genotype[0: point_crossingover_first] + \
-                                selected_pop[index_one_parent].genotype[point_crossingover_first:
-                                                                        point_crossingover_second] + \
-                                selected_pop[index_two_parent].genotype[point_crossingover_second:
-                                                                        len(selected_pop[index_two_parent].genotype)]
+                for i in range(1, len(points_cros)):
+                    first_child += first_parent.genotype[points_cros[i - 1]:points_cros[i]]
+                    second_chaild += second_parent.genotype[points_cros[i - 1]:points_cros[i]]
+                    first_parent, second_parent = first_parent, second_parent
 
                 childs.append(individ.Individual(self.reform(self.to_mutate(first_child))))
                 childs.append(individ.Individual(self.reform(self.to_mutate(second_chaild))))
