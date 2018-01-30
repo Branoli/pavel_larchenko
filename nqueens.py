@@ -84,7 +84,7 @@ class Solver_8_queens:
                 for j in range(1, len(points_cros)):
                     first_child += first_parent.genotype[points_cros[j - 1]:points_cros[j]]
                     second_chaild += second_parent.genotype[points_cros[j - 1]:points_cros[j]]
-                    first_parent, second_parent = first_parent, second_parent
+                    first_parent, second_parent = second_parent, first_parent
 
                 childs.append(individ.Individual(self.reform(self.to_mutate(first_child))))
                 childs.append(individ.Individual(self.reform(self.to_mutate(second_chaild))))
